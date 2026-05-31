@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Finance Tracker</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+
+    <nav class="navbar">
+
+        <div class="logo">
+            AI Finance Tracker
+        </div>
+
+        <div class="navbar-right">
+
+    <button id="themeToggle">
+        🌙 Dark Mode
+    </button>
+
+    <div class="profile">
+        Welcome User
+    </div>
+
+</div>
+
+    </nav>
+
+    <!-- Main Layout -->
+
+    <div class="container">
+
+        <!-- Sidebar -->
+
+        <aside class="sidebar">
+
+            <ul>
+
+                <li>Dashboard</li>
+
+                <li>Expenses</li>
+
+                <li>Reports</li>
+
+                <li>AI Assistant</li>
+
+                <li>Settings</li>
+
+            </ul>
+
+        </aside>
+
+        <!-- Content -->
+
+        <main class="content">
+
+            <!-- Income -->
+
+            <div class="income-section">
+
+                <h2>Monthly Income</h2>
+
+                <input
+                    type="number"
+                    id="incomeInput"
+                    placeholder="Enter Income">
+
+                <button onclick="setIncome()">
+                    Save Income
+                </button>
+
+            </div>
+
+            <!-- Cards -->
+
+            <div class="cards">
+
+                <div class="card">
+
+                    <h3>Total Income</h3>
+
+                    <p id="incomeDisplay">
+                        ₹0
+                    </p>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>Total Expense</h3>
+
+                    <p id="expenseDisplay">
+                        ₹0
+                    </p>
+
+                </div>
+
+                <div class="card">
+
+                    <h3>Savings</h3>
+
+                    <p id="savingDisplay">
+                        ₹0
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="budget-card">
+
+    <h3>Monthly Budget Usage</h3>
+
+    <div class="progress-container">
+
+        <div
+            class="progress-bar"
+            id="progressBar">
+
+        </div>
+
+    </div>
+
+    <p id="progressText">
+        0% Used
+    </p>
+
+    <p id="remainingBudget">
+    Remaining: ₹0
+</p>
+
+</div>
+
+            <!-- Expense Form -->
+
+            <div class="expense-form">
+
+                <h2>Add Expense</h2>
+
+                <select id="category">
+
+                    <option value="">
+                        Select Category
+                    </option>
+
+                    <option>
+                        Food
+                    </option>
+
+                    <option>
+                        Travel
+                    </option>
+
+                    <option>
+                        Shopping
+                    </option>
+
+                    <option>
+                        Bills
+                    </option>
+
+                    <option>
+                        Entertainment
+                    </option>
+
+                </select>
+
+                <input
+                    type="number"
+                    id="amount"
+                    placeholder="Amount">
+
+                <button onclick="addExpense()">
+                    Add Expense
+                </button>
+
+            </div>
+
+            <!-- Chart -->
+
+            <div class="chart-section">
+
+    <h2>Expense Analytics</h2>
+
+    <div class="charts-container">
+
+        <div class="chart-card">
+
+            <h3>Expense Distribution</h3>
+
+            <div class="chart-wrapper">
+                <canvas id="expenseChart"></canvas>
+            </div>
+
+        </div>
+
+        <div class="chart-card">
+
+            <h3>Category Comparison</h3>
+
+            <div class="chart-wrapper">
+                <canvas id="barChart"></canvas>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+            <!-- Expense Table -->
+
+            <div class="table-section">
+
+                <h2>Expense History</h2>
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Category</th>
+
+                            <th>Amount</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+      <tbody id="expenseTable"></tbody>
+
+                    
+
+                </table>
+
+            </div>
+
+            <!-- AI Chatbot -->
+
+            <div class="chatbot">
+
+                <h2>AI Financial Assistant</h2>
+
+                <div
+                    class="chat-box"
+                    id="chatBox">
+
+                    <div class="message ai">
+                        Hello! Ask me about your finances.
+                    </div>
+
+                </div>
+
+                <div class="chat-input">
+
+                    <input
+                        type="text"
+                        id="userInput"
+                        placeholder="Ask AI...">
+
+                    <button onclick="sendMessage()">
+                        Send
+                    </button>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+    <script src="app.js"></script>
+
+</body>
+
+</html>
