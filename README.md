@@ -1,65 +1,146 @@
 # AI Finance Tracker
 
-A modern personal finance dashboard built using HTML, CSS, JavaScript, and Chart.js.
+## Overview
+
+AI Finance Tracker is a modern personal finance management web application built using HTML, CSS, and JavaScript.
+
+The application helps users manage income, expenses, savings, financial goals, reports, and analytics through an interactive dashboard.
+
+The project includes a complete frontend authentication system with Login and Signup functionality and provides a strong foundation for future AI-powered financial analysis.
+
+---
 
 ## Features
 
-- Income Tracking
-- Expense Tracking
-- Edit Expenses
-- Delete Expenses
-- Pie Chart Analytics
-- Category Comparison Bar Chart
-- Budget Progress Bar
-- Dark / Light Mode
-- AI Assistant User Interface
-- Responsive Dashboard Layout
+### User Authentication
+
+* User Registration
+* User Login
+* User Logout
+* Session Protection using Local Storage
+* Personalized Welcome Message
+
+### Financial Dashboard
+
+* Monthly Income Tracking
+* Expense Management
+* Savings Calculation
+* Budget Tracking
+* Goal Progress Monitoring
+
+### Expense Management
+
+* Add Expenses
+* Edit Expenses
+* Delete Expenses
+* Expense Filtering by Category
+* Expense History Table
+
+### Analytics
+
+* Expense Distribution Pie Chart
+* Category Comparison Bar Chart
+* Savings Rate Calculation
+* Financial Health Score
+* Expense Risk Analysis
+
+### AI Features
+
+* AI Financial Assistant Chat Interface
+* Financial Insights Generation
+* Growth Suggestions
+
+### Reports
+
+* Monthly Financial Report
+* PDF Report Download
+
+### UI Features
+
+* Dark Mode
+* Responsive Design
+* Interactive Dashboard
+* Modern Card-Based Layout
+
+---
 
 ## Technologies Used
 
-- HTML5
-- CSS3
-- JavaScript (ES6)
-- Chart.js
+### Frontend
 
-## Dashboard Modules
+* HTML5
+* CSS3
+* JavaScript (ES6)
 
-### Income Management
-Users can enter their monthly income and track savings automatically.
+### Libraries
 
-### Expense Management
-Users can add, edit, and delete expenses by category.
+* Chart.js
+* jsPDF
 
-### Financial Analytics
-Interactive charts visualize spending distribution and category-wise expenses.
+### Storage
 
-### Budget Tracking
-A progress bar shows how much of the monthly income has been spent.
+* Browser Local Storage
 
-### AI Assistant
-Chatbot interface prepared for future AI integration using Ollama and LLMs.
-
-## Future Enhancements
-
-- Spring Boot Backend
-- MongoDB Database
-- MongoDB Atlas Cloud Storage
-- Ollama AI Integration
-- Llama 3 Financial Assistant
-- User Authentication
-- Financial Reports Export
-- Monthly Trend Analysis
+---
 
 ## Project Structure
 
 AI-Finance-Tracker/
-│
+
 ├── index.html
+
+├── login.html
+
+├── signup.html
+
 ├── style.css
+
 ├── app.js
-├── README.md
-└── screenshots/
+
+├── login.js
+
+├── signup.js
+
+├── Screenshots/
+
+└── README.md
+
+---
+
+## Future Improvements
+
+* Node.js Backend
+* Express.js API
+* MongoDB Database
+* JWT Authentication
+* AI Integration using Ollama
+* Investment Tracking
+* Expense Prediction
+* Financial Recommendation Engine
+* Cloud Deployment
+
+---
+
+## How to Run
+
+1. Clone the repository.
+
+2. Open the project in Visual Studio Code.
+
+3. Install Live Server Extension.
+
+4. Right click login.html and select Open with Live Server.
+
+5. Create an account using Signup.
+
+6. Login and access the dashboard.
+
+---
 
 ## Author
 
-INFINITY2106
+Abhay Kekunnaya
+
+Computer Science Student
+
+Frontend Development | JavaScript | AI Projects
