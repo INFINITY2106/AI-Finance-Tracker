@@ -2,13 +2,16 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>AI Finance Tracker</title>
 
     <link rel="stylesheet" href="style.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
 <body>
@@ -18,127 +21,94 @@
     <nav class="navbar">
 
         <div class="logo">
-            AI Finance Tracker
+          AI Finance Tracker
         </div>
 
         <div class="navbar-right">
 
-    <button id="themeToggle">
-        🌙 Dark Mode
-    </button>
+            <button id="themeToggle">
+              🌙 Dark Mode
+            </button>
 
-    <div class="profile">
-        Welcome User
-    </div>
+            <div
+                class="profile"
+                id="profileName">
+
+                Welcome User
 
 </div>
 
+            <button onclick="logout()">
+              Logout
+            </button>
+
+        </div>
+
     </nav>
+
+
+    <div class="menu-bar">
+
+        <button onclick="showSection('dashboard')">
+          Dashboard
+        </button>
+
+        <button onclick="showSection('expenses')">
+          Expenses
+        </button>
+
+        <button onclick="showSection('insights')">
+          Insights
+        </button>
+
+        <button onclick="showSection('growth')">
+          Growth
+        </button>
+
+        <button onclick="showSection('reports')">
+          Reports
+        </button>
+
+    </div>
+
+
+    <div class="dashboard-header">
+
+        <div>
+           <h1>Financial Dashboard</h1>
+           <p>Track income, expenses, savings and growth opportunities</p>
+        </div>
+
+    </div>
+
+
 
     <!-- Main Layout -->
 
     <div class="container">
 
-        <!-- Sidebar -->
-
-        <aside class="sidebar">
-
-            <ul>
-
-                <li>Dashboard</li>
-
-                <li>Expenses</li>
-
-                <li>Reports</li>
-
-                <li>AI Assistant</li>
-
-                <li>Settings</li>
-
-            </ul>
-
-        </aside>
-
-        <!-- Content -->
-
         <main class="content">
 
-            <!-- Income -->
+            <!-- Income Section -->
 
             <div class="income-section">
 
-                <h2>Monthly Income</h2>
+                <h2>
+                  Monthly Income
+                </h2>
 
                 <input
-                    type="number"
-                    id="incomeInput"
-                    placeholder="Enter Income">
+                  type="number"
+                  id="incomeInput"
+                  placeholder="Enter Income">
 
                 <button onclick="setIncome()">
-                    Save Income
+                  Save Income
                 </button>
 
             </div>
 
-            <!-- Cards -->
 
-            <div class="cards">
-
-                <div class="card">
-
-                    <h3>Total Income</h3>
-
-                    <p id="incomeDisplay">
-                        ₹0
-                    </p>
-
-                </div>
-
-                <div class="card">
-
-                    <h3>Total Expense</h3>
-
-                    <p id="expenseDisplay">
-                        ₹0
-                    </p>
-
-                </div>
-
-                <div class="card">
-
-                    <h3>Savings</h3>
-
-                    <p id="savingDisplay">
-                        ₹0
-                    </p>
-
-                </div>
-
-            </div>
-
-            <div class="budget-card">
-
-    <h3>Monthly Budget Usage</h3>
-
-    <div class="progress-container">
-
-        <div
-            class="progress-bar"
-            id="progressBar">
-
-        </div>
-
-    </div>
-
-    <p id="progressText">
-        0% Used
-    </p>
-
-    <p id="remainingBudget">
-    Remaining: ₹0
-</p>
-
-</div>
 
             <!-- Expense Form -->
 
@@ -147,31 +117,21 @@
                 <h2>Add Expense</h2>
 
                 <select id="category">
+                    <option value="">Select Category</option>
+                    <option value="Food">Food</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Entertainment">Entertainment</option>
+                </select>
 
-                    <option value="">
-                        Select Category
-                    </option>
-
-                    <option>
-                        Food
-                    </option>
-
-                    <option>
-                        Travel
-                    </option>
-
-                    <option>
-                        Shopping
-                    </option>
-
-                    <option>
-                        Bills
-                    </option>
-
-                    <option>
-                        Entertainment
-                    </option>
-
+                <select id="filterCategory" onchange="filterExpenses()">
+                    <option value="All">All Categories</option>
+                    <option value="Food">Food</option>
+                    <option value="Travel">Travel</option>
+                    <option value="Shopping">Shopping</option>
+                    <option value="Bills">Bills</option>
+                    <option value="Entertainment">Entertainment</option>
                 </select>
 
                 <input
@@ -185,75 +145,230 @@
 
             </div>
 
+
+
+            <!-- Income Goal Tracker -->
+
+            <div class="goal-tracker">
+
+                <h2>🎯 Income Goal Tracker</h2>
+
+                <div class="goal-info">
+
+                    <div>
+                      <h4>Current Income</h4>
+                      <p id="currentIncomeGoal">₹0</p>
+                    </div>
+
+                    <div>
+                      <h4>Target Income</h4>
+                      <p id="targetIncomeGoal">₹250000</p>
+                    </div>
+
+                    <div>
+                      <h4>Progress</h4>
+                      <p id="goalPercentage">0%</p>
+                    </div>
+
+                </div>
+
+
+                <div class="progress-container">
+
+                    <div
+                      class="progress-bar"
+                      id="goalProgressBar">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- Summary Cards -->
+
+            <div class="summary-row">
+
+                <div class="summary-card">
+                    Income Growth
+                    <p id="incomeGrowth">0%</p>
+                </div>
+
+                <div class="summary-card">
+                    Savings Rate
+                    <p id="savingsRate">0%</p>
+                </div>
+
+                <div class="summary-card">
+                    Expense Risk
+                    <p id="expenseRisk">Low</p>
+                </div>
+
+                <div class="summary-card">
+                    Health Score
+                    <p id="healthScore">90</p>
+                </div>
+
+            </div>
+
+
+            <!-- Cards -->
+
+            <div class="cards">
+
+                <div class="card income-card">
+                    <h3>💰 Total Income</h3>
+                    <p id="incomeDisplay"> ₹0 </p>
+                </div>
+
+                <div class="card expense-card">
+                    <h3>💸 Total Expense</h3>
+                    <p id="expenseDisplay"> ₹0 </p>
+                </div>
+
+                <div class="card savings-card">
+                    <h3>🏦 Savings</h3>
+                    <p id="savingDisplay"> ₹0 </p>
+                </div>
+
+            </div>
+
+
+            <!-- Budget Card -->
+
+            <div class="budget-card">
+
+                <h3>Monthly Budget Usage</h3>
+
+                <div class="progress-container">
+
+                    <div
+                      class="progress-bar"
+                      id="progressBar">
+
+                    </div>
+
+                </div>
+
+                <p id="progressText"> 0% Used </p>
+
+                <p id="remainingBudget"> Remaining : ₹0 </p>
+
+            </div>
+
+
+            <!-- Goals Section -->
+
+            <div class="goals-section">
+                <h2>🎯 Monthly Goals</h2>
+
+                <label>
+                    <input type="checkbox">
+                    Save ₹10,000
+                </label>
+
+                <label>
+                    <input type="checkbox">
+                    Reduce Shopping Expenses
+                </label>
+
+                <label>
+                    <input type="checkbox">
+                    Complete React Course
+                </label>
+
+                <label>
+                    <input type="checkbox">
+                    Apply To 5 Internships
+                </label>
+
+            </div>
+
+
+            <!-- Insights Section -->
+
+            <div class="insights">
+                <h2>AI Insights</h2>
+                <ul id="insightsList"></ul>
+            </div>
+
+
+            <!-- Growth Suggestions -->
+
+            <div class="growth-section">
+                <h2>Growth Suggestions</h2>
+                <div id="growthCards" class="growth-grid"></div>
+            </div>
+
+
             <!-- Chart -->
 
             <div class="chart-section">
 
-    <h2>Expense Analytics</h2>
+                <h2>📊 Expense Analytics</h2>
 
-    <div class="charts-container">
+                <div class="charts-container">
 
-        <div class="chart-card">
+                    <div class="chart-card">
+                        <h3>Expense Distribution</h3>
 
-            <h3>Expense Distribution</h3>
+                        <div class="chart-wrapper">
+                            <canvas id="expenseChart"></canvas>
+                        </div>
 
-            <div class="chart-wrapper">
-                <canvas id="expenseChart"></canvas>
+                    </div>
+
+                    <div class="chart-card">
+                        <h3>Category Comparison</h3>
+
+                        <div class="chart-wrapper">
+                            <canvas id="barChart"></canvas>
+                        </div>
+
+                    </div>
+
+                </div>
+
             </div>
 
-        </div>
-
-        <div class="chart-card">
-
-            <h3>Category Comparison</h3>
-
-            <div class="chart-wrapper">
-                <canvas id="barChart"></canvas>
-            </div>
-
-        </div>
-
-    </div>
-
-</div>
 
             <!-- Expense Table -->
 
             <div class="table-section">
-
                 <h2>Expense History</h2>
-
                 <table>
 
                     <thead>
-
                         <tr>
-
                             <th>Category</th>
-
                             <th>Amount</th>
-
                             <th>Actions</th>
-
                         </tr>
-
                     </thead>
 
-
-      <tbody id="expenseTable"></tbody>
-
-                    
+                    <tbody id="expenseTable"></tbody>
 
                 </table>
 
             </div>
 
+
+            <!-- Monthly Report -->
+            
+            <div class="reports">
+                <h2>Monthly Report</h2>
+                <button onclick="generateReport()">Generate Report</button>
+                <button onclick="downloadPDF()"> Download PDF </button>
+                <div id="reportBox"></div>
+            </div>
+
+
             <!-- AI Chatbot -->
 
             <div class="chatbot">
-
                 <h2>AI Financial Assistant</h2>
-
                 <div
                     class="chat-box"
                     id="chatBox">
@@ -270,7 +385,6 @@
                         type="text"
                         id="userInput"
                         placeholder="Ask AI...">
-
                     <button onclick="sendMessage()">
                         Send
                     </button>
@@ -283,7 +397,31 @@
 
     </div>
 
+
+    <!-- Edit Modal -->
+
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <h2>Edit Expense</h2>
+
+            <input
+                type="number"
+                id="editAmount">
+
+            <button onclick="saveEdit()">
+                Save
+            </button>
+
+            <button onclick="closeModal()">
+                Cancel
+            </button>
+
+        </div>
+
+    </div>
+
     <script src="app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </body>
 
