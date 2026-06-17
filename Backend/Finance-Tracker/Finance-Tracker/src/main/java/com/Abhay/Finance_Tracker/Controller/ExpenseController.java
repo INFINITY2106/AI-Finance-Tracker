@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/expenses")
 public class ExpenseController {
@@ -27,7 +28,9 @@ public class ExpenseController {
     }
 
     @PutMapping("/{id}")
-    public Expense updateExpense(@PathVariable String id, @RequestBody Expense updatedExpense) {
+    public Expense updateExpense(
+            @PathVariable String id,
+            @RequestBody Expense updatedExpense) {
 
         Expense expense = repository.findById(id).orElseThrow();
 

@@ -8,7 +8,7 @@
 
     <title>AI Finance Tracker</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     
@@ -116,23 +116,16 @@
 
                 <h2>Add Expense</h2>
 
-                <select id="category">
-                    <option value="">Select Category</option>
-                    <option value="Food">Food</option>
-                    <option value="Travel">Travel</option>
-                    <option value="Shopping">Shopping</option>
-                    <option value="Bills">Bills</option>
-                    <option value="Entertainment">Entertainment</option>
-                </select>
+                <input
+                    type="text"
+                    id="category"
+                    placeholder="Enter Expense Category">
 
-                <select id="filterCategory" onchange="filterExpenses()">
-                    <option value="All">All Categories</option>
-                    <option value="Food">Food</option>
-                    <option value="Travel">Travel</option>
-                    <option value="Shopping">Shopping</option>
-                    <option value="Bills">Bills</option>
-                    <option value="Entertainment">Entertainment</option>
-                </select>
+                <input
+                    type="text"
+                    id="filterCategory"
+                    placeholder="Search Category"
+                    onkeyup="filterExpenses()">
 
                 <input
                     type="number"
@@ -209,6 +202,26 @@
                 <div class="summary-card">
                     Health Score
                     <p id="healthScore">90</p>
+                </div>
+
+                <div class="summary-card">
+                    Total Transactions
+                    <p id="totalTransactions">0</p>
+                </div>
+
+                <div class="summary-card">
+                    Highest Expense
+                    <p id="highestExpense">₹0</p>
+                </div>
+
+                <div class="summary-card">
+                    Average Expense
+                    <p id="averageExpense">₹0</p>
+                </div>
+
+                <div class="summary-card">
+                    Top Category
+                    <p id="topCategory">None</p>
                 </div>
 
             </div>
@@ -329,6 +342,13 @@
 
                     </div>
 
+                    <div class="chart-card">
+                        <h3>Monthly Expense Trend</h3>
+
+                        <div class="chart-wrapper">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+
                 </div>
 
             </div>
@@ -342,6 +362,7 @@
 
                     <thead>
                         <tr>
+                            <th>Date</th>
                             <th>Category</th>
                             <th>Amount</th>
                             <th>Actions</th>
@@ -420,7 +441,7 @@
 
     </div>
 
-    <script src="app.js"></script>
+    <script src="../JavaScript/app.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
 
 </body>

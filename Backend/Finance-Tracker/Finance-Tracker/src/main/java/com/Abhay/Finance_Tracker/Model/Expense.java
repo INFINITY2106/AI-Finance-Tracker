@@ -3,6 +3,8 @@ package com.Abhay.Finance_Tracker.Model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.Date;
+
 @Document(collection = "expenses")
 public class Expense {
 
@@ -11,6 +13,7 @@ public class Expense {
 
     private String category;
     private double amount;
+    private Date date;
 
     public Expense() {
     }
@@ -37,5 +40,13 @@ public class Expense {
 
     public void setAmount(double amount) {
         this.amount = amount;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 }

@@ -25,6 +25,28 @@ let totalExpense = 0;
 
 let expenseChart;
 let barChart;
+let lineChart;
+
+
+function loadExpenses()
+{
+    fetch(
+        "http://localhost:8080/api/expenses"
+    )
+    .then(response => response.json())
+    .then(data =>
+    {
+        expenses = data;
+
+        renderTable();
+
+        calculateTotals();
+    })
+    .catch(error =>
+    {
+        console.error(error);
+    });
+}
 
 
 /**************************************
@@ -35,9 +57,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const user =
 JSON.parse(
-    localStorage.getItem(
-        "user"
-    )
+    localStorage.getItem("user")
 );
 
 if(user)
@@ -45,8 +65,7 @@ if(user)
     document.getElementById(
         "profileName"
     ).innerText =
-    "Welcome " +
-    user.name;
+    "Welcome " + user.name;
 }
 
 
@@ -194,23 +213,33 @@ barChart = new Chart(barCtx, {
     }
 });
 
+const lineCtx =
+document
+    .getElementById("lineChart")
+    .getContext("2d");
 
-const savedExpenses =
-localStorage.getItem(
-    "expenses"
-);
+lineChart = new Chart(lineCtx, {
 
-if(savedExpenses)
-{
-    expenses =
-    JSON.parse(savedExpenses);
+    type: "line",
 
-    expenseId =
-    expenses.length;
+    data: {
 
-    renderTable();
-    calculateTotals();
-}
+        labels: [],
+
+        datasets: [{
+            label: "Expenses Over Time",
+            data: [],
+            tension: 0.3
+        }]
+    },
+
+    options: {
+
+        responsive: true,
+
+        maintainAspectRatio: false
+    }
+});
 
 
     themeButton.addEventListener(
@@ -246,7 +275,7 @@ if(savedExpenses)
         );
     }
 });
-
+loadExpenses();
 });
 
 
@@ -313,31 +342,36 @@ function addExpense()
     };
 
 
-let duplicate =
-expenses.some(
-    e =>
-    e.category === category &&
-    e.amount === amount
-);
+    fetch(
+    "http://localhost:8080/api/expenses",
+    {
+        method: "POST",
 
-if(duplicate)
+        headers: {
+            "Content-Type": "application/json"
+        },
+
+        body: JSON.stringify({
+            category: category,
+            amount: amount,
+            date: new Date()
+        })
+    }
+)
+.then(response => response.json())
+.then(data =>
 {
-    alert(
-        "Expense already exists"
-    );
-    return;
-}
+    console.log("Saved:", data);
 
-    expenses.push(expense);
+    loadExpenses();
 
-localStorage.setItem(
-    "expenses",
-    JSON.stringify(expenses)
-);
-
-renderTable();
-
-calculateTotals();
+    document.getElementById("amount").value = "";
+    document.getElementById("category").value = "";
+})
+.catch(error =>
+{
+    console.error(error);
+});
 }
 
 
@@ -352,17 +386,16 @@ function renderTable()
     {
         table.innerHTML += `
         <tr>
+            <td>${new Date(expense.date).toLocaleDateString()}</td>
             <td>${expense.category}</td>
             <td>₹${expense.amount}</td>
 
             <td>
-                <button
-                    onclick="editExpense(${expense.id})">
+                <button onclick="editExpense('${expense.id}')">
                     Edit
                 </button>
 
-                <button
-                    onclick="deleteExpense(${expense.id})">
+                <button onclick="deleteExpense('${expense.id}')">
                     Delete
                 </button>
             </td>
@@ -374,28 +407,32 @@ function renderTable()
 
 function deleteExpense(id)
 {
-    expenses =
-        expenses.filter(
-            expense => expense.id !== id
-        );
+    fetch(
+        `http://localhost:8080/api/expenses/${id}`,
+        {
+            method: "DELETE"
+        }
+    )
+    .then(response => response.text())
+    .then(data =>
+    {
+        console.log(data);
 
-    localStorage.setItem(
-        "expenses",
-        JSON.stringify(expenses)
-    );
-
-    renderTable();
-
-    calculateTotals();
+        loadExpenses();
+    })
+    .catch(error =>
+    {
+        console.error(error);
+    });
 }
 
 
 function filterExpenses()
 {
-    const selected =
+    const search =
     document.getElementById(
         "filterCategory"
-    ).value;
+    ).value.toLowerCase();
 
     const table =
     document.getElementById(
@@ -404,27 +441,28 @@ function filterExpenses()
 
     table.innerHTML = "";
 
-    let filtered =
-    selected === "All"
-    ? expenses
-    : expenses.filter(
+    const filtered =
+    expenses.filter(
         expense =>
-        expense.category === selected
+        expense.category
+        .toLowerCase()
+        .includes(search)
     );
 
     filtered.forEach(expense =>
     {
         table.innerHTML += `
         <tr>
+            <td>${new Date(expense.date).toLocaleDateString()}</td>
             <td>${expense.category}</td>
             <td>₹${expense.amount}</td>
 
             <td>
-                <button onclick="editExpense(${expense.id})">
+                <button onclick="editExpense('${expense.id}')">
                     Edit
                 </button>
 
-                <button onclick="deleteExpense(${expense.id})">
+                <button onclick="deleteExpense('${expense.id}')">
                     Delete
                 </button>
             </td>
@@ -475,18 +513,38 @@ function saveEdit()
         e => e.id === editingExpenseId
     );
 
-    expense.amount = amount;
+    fetch(
+        `http://localhost:8080/api/expenses/${editingExpenseId}`,
+        {
+            method: "PUT",
 
-localStorage.setItem(
-    "expenses",
-    JSON.stringify(expenses)
-);
+            headers:
+            {
+                "Content-Type": "application/json"
+            },
 
-renderTable();
-calculateTotals();
+            body: JSON.stringify(
+            {
+                category: expense.category,
+                amount: amount
+            })
+        }
+    )
+    .then(response => response.json())
+    .then(data =>
+    {
+        console.log("Updated:", data);
 
-closeModal();
+        loadExpenses();
+
+        closeModal();
+    })
+    .catch(error =>
+    {
+        console.error(error);
+    });
 }
+
 
 function closeModal()
 {
@@ -521,6 +579,7 @@ function updateDashboard()
     updateGrowthSuggestions();
     updateAnalytics();
     updateGoalTracker();
+    updateExpenseStatistics();
 
     document.getElementById(
         "incomeDisplay"
@@ -590,6 +649,75 @@ incomeGrowth.toFixed(1) + "%";
     );
 }
 
+
+function updateExpenseStatistics()
+{
+    document.getElementById(
+        "totalTransactions"
+    ).innerText =
+    expenses.length;
+
+    let highestExpense = 0;
+
+    expenses.forEach(expense =>
+    {
+        if(expense.amount > highestExpense)
+        {
+            highestExpense =
+            expense.amount;
+        }
+    });
+
+    document.getElementById(
+        "highestExpense"
+    ).innerText =
+    "₹" + highestExpense;
+
+    let averageExpense =
+    expenses.length > 0
+    ? totalExpense / expenses.length
+    : 0;
+
+    document.getElementById(
+        "averageExpense"
+    ).innerText =
+    "₹" + averageExpense.toFixed(0);
+
+    let categoryTotals = {};
+
+    expenses.forEach(expense =>
+    {
+        if(categoryTotals[expense.category])
+        {
+            categoryTotals[expense.category] += expense.amount;
+        }
+        else
+        {
+            categoryTotals[expense.category] =
+            expense.amount;
+        }
+    });
+
+    let topCategory = "None";
+    let maxAmount = 0;
+
+    for(let category in categoryTotals)
+    {
+        if(categoryTotals[category] > maxAmount)
+        {
+            maxAmount =
+            categoryTotals[category];
+
+            topCategory =
+            category;
+        }
+    }
+
+    document.getElementById(
+        "topCategory"
+    ).innerText =
+    topCategory;
+}
 
 
 /**************************************
@@ -795,6 +923,26 @@ function updateChart()
         values;
 
     barChart.update();
+
+    let dates = [];
+    let amounts = [];
+
+    expenses.forEach(expense =>
+{
+    dates.push(
+        new Date(expense.date)
+        .toLocaleDateString()
+    );
+
+    amounts.push(
+        expense.amount
+    );
+});
+
+lineChart.data.labels = dates;
+lineChart.data.datasets[0].data = amounts;
+
+lineChart.update();
 }
 
 
