@@ -18,6 +18,7 @@ if(
 **************************************/
 
 let expenses = [];
+let filteredExpenses = [];
 let expenseId = 0;
 
 let totalIncome = 0;
@@ -36,11 +37,13 @@ function loadExpenses()
     .then(response => response.json())
     .then(data =>
     {
-        expenses = data;
+    expenses = data;
 
-        renderTable();
+    filteredExpenses = expenses;
 
-        calculateTotals();
+    renderTable();
+
+    calculateTotals();
     })
     .catch(error =>
     {
@@ -405,6 +408,73 @@ function renderTable()
 }
 
 
+function renderFilteredTable()
+{
+    const table =
+    document.getElementById(
+        "expenseTable"
+    );
+
+    table.innerHTML = "";
+
+    filteredExpenses.forEach(expense =>
+    {
+        table.innerHTML += `
+        <tr>
+            <td>${new Date(expense.date).toLocaleDateString()}</td>
+            <td>${expense.category}</td>
+            <td>₹${expense.amount}</td>
+
+            <td>
+                <button onclick="editExpense('${expense.id}')">
+                    Edit
+                </button>
+
+                <button onclick="deleteExpense('${expense.id}')">
+                    Delete
+                </button>
+            </td>
+        </tr>`;
+    });
+}
+
+
+function updateFilteredCharts()
+{
+    let categoryTotals = {};
+
+    filteredExpenses.forEach(expense =>
+    {
+        if(categoryTotals[expense.category])
+        {
+            categoryTotals[expense.category] += expense.amount;
+        }
+        else
+        {
+            categoryTotals[expense.category] = expense.amount;
+        }
+    });
+
+    expenseChart.data.labels =
+    Object.keys(categoryTotals);
+
+    expenseChart.data.datasets[0].data =
+    Object.values(categoryTotals);
+
+    expenseChart.update();
+
+    barChart.data.labels =
+    Object.keys(categoryTotals);
+
+    barChart.data.datasets[0].data =
+    Object.values(categoryTotals);
+
+    barChart.update();
+}
+
+
+
+
 function deleteExpense(id)
 {
     fetch(
@@ -469,6 +539,37 @@ function filterExpenses()
         </tr>
         `;
     });
+}
+
+
+
+function filterByMonth()
+{
+    const selectedMonth =
+    document.getElementById(
+        "monthFilter"
+    ).value;
+
+    if(selectedMonth === "")
+    {
+        filteredExpenses =
+        expenses;
+    }
+    else
+    {
+        filteredExpenses =
+        expenses.filter(expense =>
+        {
+            const expenseMonth =
+            expense.date.substring(0,7);
+
+            return expenseMonth === selectedMonth;
+        });
+    }
+
+    renderFilteredTable();
+
+    updateFilteredCharts();
 }
 
 
@@ -580,6 +681,7 @@ function updateDashboard()
     updateAnalytics();
     updateGoalTracker();
     updateExpenseStatistics();
+    updateRecentTransactions();
 
     document.getElementById(
         "incomeDisplay"
@@ -718,6 +820,42 @@ function updateExpenseStatistics()
     ).innerText =
     topCategory;
 }
+
+
+
+function updateRecentTransactions()
+{
+    const container =
+    document.getElementById(
+        "recentTransactions"
+    );
+
+    container.innerHTML = "";
+
+    const recentExpenses =
+    [...expenses]
+    .reverse()
+    .slice(0, 5);
+
+    if(recentExpenses.length === 0)
+    {
+        container.innerHTML =
+        "No transactions available";
+
+        return;
+    }
+
+    recentExpenses.forEach(expense =>
+    {
+        container.innerHTML += `
+        <div class="recent-item">
+            <span>${expense.category}</span>
+            <span>₹${expense.amount}</span>
+        </div>
+        `;
+    });
+}
+
 
 
 /**************************************

@@ -322,6 +322,15 @@
 
                 <h2>📊 Expense Analytics</h2>
 
+                <div class="filter-row">
+
+                    <input
+                        type="month"
+                        id="monthFilter"
+                        onchange="filterByMonth()">
+
+                </div>
+
                 <div class="charts-container">
 
                     <div class="chart-card">
@@ -353,6 +362,20 @@
 
             </div>
 
+
+            <!-- Recent Transactions -->
+
+            <div class="recent-transactions">
+
+                <h2>🕒 Recent Transactions</h2>
+
+                <div id="recentTransactions">
+
+                No transactions available
+
+                </div>
+
+            </div>
 
             <!-- Expense Table -->
 

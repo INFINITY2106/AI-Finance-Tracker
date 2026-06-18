@@ -612,6 +612,17 @@ body.dark-mode #reportBox{
     color:white;
 }
 
+.dark-mode .recent-transactions
+{
+    background: #1e1e1e;
+    color: white;
+}
+
+.dark-mode .recent-item
+{
+    border-bottom: 1px solid #333;
+}
+
 
 /* ==================================
    RESPONSIVE DESIGN
@@ -670,4 +681,30 @@ body.dark-mode #reportBox{
         transform:translateY(0);
     }
 
+}
+
+
+
+
+
+.recent-transactions
+{
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.recent-item
+{
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
+}
+
+.recent-item:last-child
+{
+    border-bottom: none;
 }
