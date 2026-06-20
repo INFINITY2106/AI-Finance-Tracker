@@ -1168,66 +1168,67 @@ function downloadPDF()
   14. AI CHATBOT
 **************************************/
 
-function sendMessage()
+async function sendMessage()
 {
     const input =
-    document.getElementById(
-        "userInput"
-    );
+    document.getElementById("userInput");
 
     const chatBox =
-    document.getElementById(
-        "chatBox"
-    );
+    document.getElementById("chatBox");
 
-    if(input.value === "")
+    const question =
+    input.value;
+
+    if(question === "")
+    {
         return;
+    }
 
     chatBox.innerHTML += `
-        <div class="message user">
-            ${input.value}
-        </div>
+    <div class="message user">
+        ${question}
+    </div>
     `;
 
-    let reply = "";
-
-let savings =
-totalIncome - totalExpense;
-
-if(
-    input.value.toLowerCase().includes("saving")
-)
-{
-    reply =
-    `Your current savings are ₹${savings}`;
-}
-else if(
-    input.value.toLowerCase().includes("expense")
-)
-{
-    reply =
-    `Your total expenses are ₹${totalExpense}`;
-}
-else if(
-    input.value.toLowerCase().includes("income")
-)
-{
-    reply =
-    `Your total income is ₹${totalIncome}`;
-}
-else
-{
-    reply =
-    "Try asking about income, expenses or savings.";
-}
-
-chatBox.innerHTML += `
-    <div class="message ai">
-        ${reply}
-    </div>
-`;
-
     input.value = "";
+
+    try
+    {
+        const response =
+        await fetch(
+            "http://localhost:8080/api/chat",
+            {
+                method: "POST",
+
+                headers:
+                {
+                    "Content-Type":
+                    "text/plain"
+                },
+
+                body: question
+            }
+        );
+
+        const aiReply =
+        await response.text();
+
+        chatBox.innerHTML += `
+        <div class="message ai">
+            ${aiReply}
+        </div>
+        `;
+    }
+    catch(error)
+    {
+        console.error(error);
+
+        chatBox.innerHTML += `
+        <div class="message ai">
+            AI Server Offline
+        </div>
+        `;
+    }
 }
 
 
